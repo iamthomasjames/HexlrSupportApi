@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri= process.env.ATLAS_URI;
-mongoose.connect("mongodb+srv://hexlrtech:112233.ad@cluster0.3e8rn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{useNewUrlParser:true, useCreateIndex:true,useUnifiedTopology: true});
+mongoose.connect(uri,{useNewUrlParser:true, useCreateIndex:true,useUnifiedTopology: true});
 
 const connection = mongoose.connection;
 
