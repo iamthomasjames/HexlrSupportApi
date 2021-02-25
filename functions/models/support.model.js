@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let Support = new Schema({
+    _id:{
+        type:String
+    },
     name: {
         type: String
     },
@@ -14,6 +17,9 @@ let Support = new Schema({
         type: String
     },
     reason: {
+        type: String
+    },
+    status: {
         type: String
     },
     description: {
