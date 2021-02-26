@@ -45,13 +45,19 @@ router.route('/add').post((req,res)=>{
             </pre>` 
           };
           transporter.sendMail (mailOptions, function (err, info) { 
-            if (err) 
-              console.log (err) 
-            else 
-              console.log (info); 
+            if (err) {
+                console.log (err) 
+                res.json(res1._id+JSON.stringify(err))
+            }
+             
+            else {
+                console.log (info); 
+                res.json(res1._id+JSON.stringify(info))
+            }
+             
           })
          
-        res.json(res1._id)})
+        })
      .catch(err => res.status(400).json('Error'+err))
 
 })
@@ -64,4 +70,4 @@ router.route('/:id').get((req,res)=>{
     .catch(err=>res.status(400).json('Error'+err))
 })
 
-module.exports = router;
+module.exports = router; 
