@@ -26,7 +26,7 @@ router.route('/add').post((req,res)=>{
 })
 
 router.route('/:id').get((req,res)=>{
-    Support.findById(req.params.id).exec();
+    Support.findById(req.params.id).exec()
     .then(support=>res.json(support))
     .catch(err=>res.status(400).json('Error'+err))
 })
