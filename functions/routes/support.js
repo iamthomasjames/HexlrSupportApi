@@ -6,7 +6,7 @@ var transporter = nodemailer.createTransport ({
     service: 'gmail', 
     auth: { 
             user: 'thomasjames.adg@gmail.com', 
-            pass: '112233.Ad' 
+            pass: process.env.Google_pass
         } 
     });
 
@@ -47,12 +47,12 @@ router.route('/add').post((req,res)=>{
           transporter.sendMail (mailOptions, function (err, info) { 
             if (err) {
                 console.log (err) 
-                res.json(res1._id+JSON.stringify(err))
+                res.json(res1._id+JSON.stringify(err+process.env.Google_pass))
             }
              
             else {
                 console.log (info); 
-                res.json(res1._id+JSON.stringify(info))
+                res.json(res1._id+JSON.stringify(info+process.env.Google_pass))
             }
              
           })
