@@ -2,13 +2,21 @@ const router=require('express').Router();
 let Support = require('../models/support.model');
 var nodemailer = require ('nodemailer');    
 
-var transporter = nodemailer.createTransport ({ 
-    service: 'gmail', 
-    auth: { 
-            user: 'thomasjames.adg@gmail.com', 
-            pass: process.env.Google_pass
-        } 
-    });
+
+    var transporter = nodemailer.createTransport({
+        host: "thomasjames.in",
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        requireTLC:true,
+        auth: {
+          user: "mail@thomasjames.in",
+          pass: process.env.Google_pass
+        },
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false
+          }
+      });
 
 
 router.route('/').get((req,res)=>{
@@ -32,7 +40,7 @@ router.route('/add').post((req,res)=>{
      newSupport.save()
      .then((res1)=> {
         const mailOptions = { 
-            from: 'thomasjames.adg@gmail.com',  
+            from: 'mail@thomasjames.in',  
             to: 'tonyjose420@gmail.com,antonythomas96.96@gmail.com,mevinxavier000@gmail.com,mail@thomasjames.in',  
             subject: `We have a New request Please take Action for `+req.body.name+``, 
             html: `
@@ -47,12 +55,12 @@ router.route('/add').post((req,res)=>{
           transporter.sendMail (mailOptions, function (err, info) { 
             if (err) {
                 console.log (err) 
-                res.json(res1._id+JSON.stringify(err+process.env.Google_pass))
+                res.json(res1._id+JSON.stringify(err))
             }
              
             else {
                 console.log (info); 
-                res.json(res1._id+JSON.stringify(info+process.env.Google_pass))
+                res.json(res1._id+JSON.stringify(info))
             }
              
           })
