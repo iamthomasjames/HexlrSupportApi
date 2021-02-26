@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"netlify build"
+    "build": "netlify build"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-mailer": "^0.3.1",
     "mongoose": "^5.11.18",
-    "serverless-http": "^2.7.0"
+    "nexmo": "^2.9.1",
+    "nodemailer": "^6.5.0",
+    "request": "^2.88.2",
+    "serverless-http": "^2.7.0",
+    "twilio": "^3.57.0"
   }
 }
