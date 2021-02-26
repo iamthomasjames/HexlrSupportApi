@@ -28,7 +28,7 @@ router.route('/add').post((req,res)=>{
 router.route('/:id').get((req,res)=>{
     Support.findById(req.params.id).exec()
     .then(support=>{
-        if(support.length)
+        if(support.length !==null)
         {
             res.json(support)
         }
