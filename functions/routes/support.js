@@ -33,7 +33,7 @@ router.route('/:id').get((req,res)=>{
             res.json(support)
         }
         else{
-            res.status(404).json('error not found');
+            res.status(400).json('error not found');
         }
     })
     .catch(err=>res.status(400).json('Error'+err))
