@@ -55,9 +55,11 @@ router.route('/add').post((req,res)=>{
           transporter.sendMail (mailOptions, function (err, info) { 
             if (err) {
                 console.log (err) 
+                res.json(res1._id+err)
             }      
             else {
                 console.log (info); 
+                res.json(res1._id+info)
             }
              
           })
