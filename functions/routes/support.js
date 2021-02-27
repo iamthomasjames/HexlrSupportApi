@@ -63,7 +63,7 @@ router.route('/add').post((req,res)=>{
             }
              
           })
-          res.json(res1._id)
+          
         })
      .catch(err => res.status(400).json('Error'+err))
 
