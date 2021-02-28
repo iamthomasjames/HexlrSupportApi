@@ -208,7 +208,11 @@ router.route('/add').post((req,res)=>{
             }      
             else {
                 console.log (info); 
-                const ress= [{token:res1._id, emailres: JSON.stringify(info)}]
+                const ress=[]
+                ress.push({
+                    token: res1._id,
+                    emailres: JSON.stringify(info)
+                })
                 res.json(ress);
             }
              
