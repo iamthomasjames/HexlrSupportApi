@@ -39,7 +39,7 @@ router.route('/add').post((req,res)=>{
      const newSupport = new Support(supportDetails);
      newSupport.save()
      .then((res1)=> {
-        const mailOptions = { 
+        const mailOptions = {  
             from: 'contact@hexlr.com',  
             to: 'tonyjose420@gmail.com,antonythomas96.96@gmail.com,mevinxavier000@gmail.com,mail@thomasjames.in',  
             subject: `We have a New request Please take Action for `+req.body.name+``, 
