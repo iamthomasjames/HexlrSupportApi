@@ -55,7 +55,7 @@ router.route('/add').post((req,res)=>{
           const mailOptions2 = { 
             from: 'contact@hexlr.com',  
             to: req.body.email,  
-            subject: `We have a New request Please take Action for `+req.body.name+``, 
+            subject: `Hexlr | Support Update`, 
             html: `<!DOCTYPE html>
             <!-- Set the language of your main document. This helps screenreaders use the proper language profile, pronunciation, and accent. -->
             <html lang="en">
