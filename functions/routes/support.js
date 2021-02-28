@@ -149,7 +149,7 @@ router.route('/add').post((req,res)=>{
                         <!-- The h1 is the main heading of the document and should come first. -->
                         <!-- We can override the default styles inline. -->
                         <h1 style="color: #000000; font-size: 32px; font-weight: 800; line-height: 32px; margin: 48px 0; text-align: center;">
-                            Your response has been recorded with us.
+                            Your response has been recorded with us. Token Number: `+res1._id+`
                         </h1>
                     </header>
             
@@ -169,7 +169,7 @@ router.route('/add').post((req,res)=>{
                     
                             <!-- This link uses descriptive text to inform the user what will happen with the link is tapped. -->
                             <!-- It also uses inline styles since some email clients won't render embedded styles from the head. -->
-                            <a href="https://hexlr.com" style="color: #B200FD; text-decoration: underline;">Visit our website</a>
+                            <a href="https://hexlr.com/support" style="color: #B200FD; text-decoration: underline;">Track your live status</a>
             
                             <p>
                                 If you think this email was sent in error, please contact our team by phone at +91 9645803089 or reply to this email directly. Thank you!  
