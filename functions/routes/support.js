@@ -204,15 +204,15 @@ router.route('/add').post((req,res)=>{
           transporter.sendMail (mailOptions2, function (err, info) { 
             if (err) {
                 console.log (err) 
-                res.json(res1._id+JSON.stringify(err))
+               // res.json(res1._id+JSON.stringify(err))
             }      
             else {
                 console.log (info); 
-                res.json(res1._id+JSON.stringify(info))
+                //res.json(res1._id+JSON.stringify(info))
             }
              
           })
-          
+          res.json(res1._id)
         })
      .catch(err => res.status(400).json('Error'+err))
 
