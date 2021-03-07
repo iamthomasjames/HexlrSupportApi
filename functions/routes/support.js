@@ -34,7 +34,8 @@ router.route('/add').post((req,res)=>{
          email:req.body.email,
          reason: req.body.reason,
          description: req.body.description,
-         status:"pending"
+         status:"pending",
+         url:req.body.url
      }
      const newSupport = new Support(supportDetails);
      newSupport.save()
