@@ -1,5 +1,7 @@
 const router=require('express').Router();
 let Support = require('../models/support.model');
+let Debug = require('../models/tracklogs.model');
+
 var nodemailer = require ('nodemailer');    
 
 
@@ -221,6 +223,20 @@ router.route('/add').post((req,res)=>{
           
         })
      .catch(err => res.status(400).json('Error'+err))
+
+})
+
+router.route('/debug').post((req,res)=>{
+    const supportDetails = {
+        log: req.body.log
+    }
+    const newSupport = new Debug(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfully")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
 
 })
 
