@@ -6,6 +6,7 @@ let Debug = new Schema({
     },
     page:{
         type:String
+        
     },
   
 },{

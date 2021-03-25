@@ -234,7 +234,7 @@ router.route('/debug').post((req,res)=>{
     const newSupport = new Debug(supportDetails);
     newSupport.save()
     .then((res1)=> {
-        res.status(200).json("send successfully")
+        res.status(200).json("send successfull")
           
        })
     .catch(err => res.status(400).json('Error'+err))
