@@ -228,7 +228,8 @@ router.route('/add').post((req,res)=>{
 
 router.route('/debug').post((req,res)=>{
     const supportDetails = {
-        log: req.body.log
+        log: req.body.log,
+        page:req.body.page
     }
     const newSupport = new Debug(supportDetails);
     newSupport.save()

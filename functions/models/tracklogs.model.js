@@ -4,6 +4,9 @@ let Debug = new Schema({
     log:{
         type:String
     },
+    page:{
+        type:String
+    },
   
 },{
     timestamps:true,
