@@ -241,6 +241,24 @@ router.route('/debug').post((req,res)=>{
 
 })
 
+router.route('/add/questions').post((req,res)=>{
+    const supportDetails = {
+        question: req.body.question,
+        option1:req.body.option1,
+        option2:req.body.option2,
+        option3:req.body.option3,
+        option4:req.body.option4,
+    }
+    const newSupport = new Questions(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+
+})
+
 router.route('/:id').get((req,res)=>{
     Support.findById(req.params.id).exec()
     .then(support=>{
