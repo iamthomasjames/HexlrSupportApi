@@ -9,7 +9,7 @@ let Questions = new Schema(
       type: String,
     },
     option2: {
-      type: Number,
+      type: String,
     },
     option3: {
       type: String,
