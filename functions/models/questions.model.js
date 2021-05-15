@@ -17,6 +17,9 @@ let Questions = new Schema(
     option4: {
       type: String,
     },
+    isImage: {
+        type: Boolean,
+      },
   },
   {
     timestamps: true,
