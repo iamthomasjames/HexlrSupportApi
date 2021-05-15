@@ -309,6 +309,13 @@ router.route('/isQuiz').get((req,res)=>{
     .catch(err=> res.status(400).json('Error:'+err))
 })
 
+router.route('/user/answers').get((req,res)=>{
+    User.find()
+    .then(supports => res.json(supports))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
+
 router.route('/answers/delete').delete((req,res)=>{
     Questions.remove({})
     .then(supports =>  res.status(200).json("delete successfull"))
