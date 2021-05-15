@@ -3,22 +3,22 @@ const Schema = mongoose.Schema;
 let Questions = new Schema(
   {
     question: {
-      type: {type: String, required: [false, "can't be blank"]},
+      type: String,
     },
     option1: {
-      type: {type: String, required: [false, "can't be blank"]},
+      type: String,
     },
     option2: {
-      type: {type: String, required: [false, "can't be blank"]},
+      type: String,
     },
     option3: {
-      type: {type: String, required: [false, "can't be blank"]},
+      type: String,
     },
     option4: {
-      type: {type: String, required: [false, "can't be blank"]},
+      type: String,
     },
     isImage: {
-        type:{type: String, required: [false, "can't be blank"]},
+        type: String,
       },
   },
   {
