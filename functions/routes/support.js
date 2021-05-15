@@ -261,6 +261,12 @@ router.route('/add/questions').post((req,res)=>{
 
 })
 
+router.route('/getQuestions').get((req,res)=>{
+    Questions.find()
+    .then(supports => res.json(supports))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
 router.route('/:id').get((req,res)=>{
     Support.findById(req.params.id).exec()
     .then(support=>{
