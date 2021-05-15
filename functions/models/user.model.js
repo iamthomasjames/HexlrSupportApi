@@ -12,7 +12,7 @@ let User = new Schema(
       type: String,
     },
     answers: {
-      type: String,
+      type: Object,
     },
   },
   {
