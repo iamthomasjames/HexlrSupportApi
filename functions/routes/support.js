@@ -255,7 +255,7 @@ router.route('/add/questions').post((req,res)=>{
         option2:req.body.option2,
         option3:req.body.option3,
         option4:req.body.option4,
-        isImage:red.body.isImage
+        isImage:req.body.isImage
     }
     const newSupport = new Questions(supportDetails);
     newSupport.save()
