@@ -2,6 +2,11 @@ const router=require('express').Router();
 let Support = require('../models/support.model');
 let Debug = require('../models/tracklogs.model');
 let Questions = require('../models/questions.model');
+let User = require('../models/user.model');
+
+
+
+
 
 
 var nodemailer = require ('nodemailer');    
@@ -261,8 +266,44 @@ router.route('/add/questions').post((req,res)=>{
 
 })
 
+router.route('/add/quizCheck').post((req,res)=>{
+    const supportDetails = {
+        isQuiz: req.body.isQuiz,
+    }
+    const newSupport = new Quizcheck(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+
+})
+
+router.route('/post/answers').post((req,res)=>{
+    const supportDetails = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        answers: req.body.answers,
+    }
+    const newSupport = new User(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+})
+
 router.route('/getQuestions').get((req,res)=>{
     Questions.find()
+    .then(supports => res.json(supports))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
+router.route('/isQuiz').get((req,res)=>{
+    Quizcheck.find()
     .then(supports => res.json(supports))
     .catch(err=> res.status(400).json('Error:'+err))
 })
