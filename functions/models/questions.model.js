@@ -18,7 +18,7 @@ let Questions = new Schema(
       type: String,
     },
     isImage: {
-        type: Boolean,
+        type: String,
       },
   },
   {
