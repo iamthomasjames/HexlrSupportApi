@@ -1,6 +1,8 @@
 const router=require('express').Router();
 let Support = require('../models/support.model');
 let Debug = require('../models/tracklogs.model');
+let Questions = require('../models/questions.model');
+
 
 var nodemailer = require ('nodemailer');    
 
