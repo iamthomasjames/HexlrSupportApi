@@ -336,6 +336,12 @@ router.route('/answers/delete').delete((req,res)=>{
     .catch(err=> res.status(400).json('Error:'+err))
 })
 
+router.route('/isActive/delete').delete((req,res)=>{
+    Quizcheck.remove({})
+    .then(supports =>  res.status(200).json("delete successfull"))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
 router.route('/:id').get((req,res)=>{
     Support.findById(req.params.id).exec()
     .then(support=>{
