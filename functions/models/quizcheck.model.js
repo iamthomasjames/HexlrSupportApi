@@ -5,6 +5,9 @@ let Quizcheck = new Schema(
     isQuiz: {
       type: Boolean,
     },
+    isAvailable: {
+        type: Boolean,
+      },
   },
   {
     timestamps: true,

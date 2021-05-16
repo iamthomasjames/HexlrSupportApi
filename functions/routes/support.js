@@ -297,6 +297,20 @@ router.route('/post/answers').post((req,res)=>{
     .catch(err => res.status(400).json('Error'+err))
 })
 
+router.route('/quiz/MakeActive').post((req,res)=>{
+    const supportDetails = {
+        isQuiz: req.body.isQuiz,
+        isAvailable: req.body.isAvailable,
+    }
+    const newSupport = new Quizcheck(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+})
+
 router.route('/getQuestions').get((req,res)=>{
     Questions.find()
     .then(supports => res.json(supports))
