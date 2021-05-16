@@ -267,19 +267,6 @@ router.route('/add/questions').post((req,res)=>{
 
 })
 
-router.route('/add/quizCheck').post((req,res)=>{
-    const supportDetails = {
-        isQuiz: req.body.isQuiz,
-    }
-    const newSupport = new Quizcheck(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-
-})
 
 router.route('/post/answers').post((req,res)=>{
     const supportDetails = {
