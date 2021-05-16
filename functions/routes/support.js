@@ -6,11 +6,6 @@ let User = require('../models/user.model');
 let Quizcheck = require('../models/quizcheck.model');
 
 
-
-
-
-
-
 var nodemailer = require ('nodemailer');    
 
 
