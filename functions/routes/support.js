@@ -271,6 +271,7 @@ router.route('/post/answers').post((req,res)=>{
         phone: req.body.phone,
         email: req.body.email,
         answers: req.body.answers,
+        screenshots:req.body.screenshots
     }
     const newSupport = new User(supportDetails);
     newSupport.save()

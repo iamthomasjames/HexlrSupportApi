@@ -14,6 +14,9 @@ let User = new Schema(
     answers: {
       type: Object,
     },
+    screenshots: {
+        type: Object,
+      },
   },
   {
     timestamps: true,
