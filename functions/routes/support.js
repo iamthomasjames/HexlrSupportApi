@@ -326,6 +326,7 @@ router.route('/quiz/MakeActive').post((req,res)=>{
 router.route('/post/ScreenCapture').post((req,res)=>{
     const supportDetails = {
         screens: req.body.screens,
+        name:req.body.name
     }
     const newSupport = new ScreenCapture(supportDetails);
     newSupport.save()

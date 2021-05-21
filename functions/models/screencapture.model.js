@@ -5,6 +5,9 @@ let ScreenCapture = new Schema(
     screens: {
       type: Object,
     },
+    name: {
+        type: String,
+      },
   },
   {
     timestamps: true,
