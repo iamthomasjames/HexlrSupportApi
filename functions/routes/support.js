@@ -4,6 +4,10 @@ let Debug = require('../models/tracklogs.model');
 let Questions = require('../models/questions.model');
 let User = require('../models/user.model');
 let Quizcheck = require('../models/quizcheck.model');
+let ScreenCapture = require('../models/screencapture.model');
+
+
+
 
 
 var nodemailer = require ('nodemailer');    
@@ -296,8 +300,28 @@ router.route('/quiz/MakeActive').post((req,res)=>{
     .catch(err => res.status(400).json('Error'+err))
 })
 
+
+router.route('/post/ScreenCapture').post((req,res)=>{
+    const supportDetails = {
+        screens: req.body.screens,
+    }
+    const newSupport = new ScreenCapture(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+})
+
 router.route('/getQuestions').get((req,res)=>{
     Questions.find()
+    .then(supports => res.json(supports))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
+router.route('/getScreens').get((req,res)=>{
+    ScreenCapture.find()
     .then(supports => res.json(supports))
     .catch(err=> res.status(400).json('Error:'+err))
 })
