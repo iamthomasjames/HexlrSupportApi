@@ -2,6 +2,7 @@ const router=require('express').Router();
 let Support = require('../models/support.model');
 let Debug = require('../models/tracklogs.model');
 let Questions = require('../models/questions.model');
+let RQuestions = require('../models/reactquestion.model');
 let User = require('../models/user.model');
 let Quizcheck = require('../models/quizcheck.model');
 let ScreenCapture = require('../models/screencapture.model');
@@ -268,6 +269,24 @@ router.route('/add/questions').post((req,res)=>{
 
 })
 
+router.route('/add/r/questions').post((req,res)=>{
+    const supportDetails = {
+        question: req.body.question,
+        option1:req.body.option1,
+        option2:req.body.option2,
+        option3:req.body.option3,
+        option4:req.body.option4,
+        isImage:req.body.isImage
+    }
+    const newSupport = new RQuestions(supportDetails);
+    newSupport.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+})
+
 
 router.route('/post/answers').post((req,res)=>{
     const supportDetails = {
@@ -285,6 +304,9 @@ router.route('/post/answers').post((req,res)=>{
        })
     .catch(err => res.status(400).json('Error'+err))
 })
+
+
+
 
 router.route('/quiz/MakeActive').post((req,res)=>{
     const supportDetails = {
@@ -316,6 +338,12 @@ router.route('/post/ScreenCapture').post((req,res)=>{
 
 router.route('/getQuestions').get((req,res)=>{
     Questions.find()
+    .then(supports => res.json(supports))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
+router.route('/r/getQuestions').get((req,res)=>{
+    RQuestions.find()
     .then(supports => res.json(supports))
     .catch(err=> res.status(400).json('Error:'+err))
 })
