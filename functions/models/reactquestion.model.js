@@ -25,4 +25,4 @@ let RQuestions = new Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("Questions", RQuestions);
+module.exports = mongoose.model("RQuestions", RQuestions);
