@@ -9,7 +9,6 @@ let ScreenCapture = require("../models/screencapture.model");
 let CompanyDetails = require("../models/company.model");
 let WorkDetails = require("../models/work.model");
 
-
 var nodemailer = require("nodemailer");
 
 var transporter = nodemailer.createTransport({
@@ -369,10 +368,17 @@ router.route("/companylist").get((req, res) => {
 });
 
 router.route("/worklist").get((req, res) => {
-    WorkDetails.find()
-      .then((workDetails) => res.json(workDetails))
-      .catch((err) => res.status(400).json("Error:" + err));
+  WorkDetails.find()
+    .then((workDetails) => res.json(workDetails))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/:company").get(async(req, res) => {
+  const filteredCompany = await WorkDetails.find({
+    company: req.query.company,
   });
+  res.send(filteredCompany);
+});
 
 router.route("/user/answers").get((req, res) => {
   User.find()
