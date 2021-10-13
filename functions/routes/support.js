@@ -423,7 +423,8 @@ router.route('/add/work').post((req,res)=>{
         company: req.body.company,
         hours:req.body.hours,
         date:req.body.date,
-        cost:req.body.cost
+        cost:req.body.cost,
+        status:req.body.status,
     }
     const newCompany = new CompanyDetails(companyDetails);
     newCompany.save()

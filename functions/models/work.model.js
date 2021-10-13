@@ -14,6 +14,9 @@ let WorkDetails = new Schema(
     cost: {
       type: String,
     },
+    status: {
+      type: String,
+    },
   },
   {
     timestamps: true,
