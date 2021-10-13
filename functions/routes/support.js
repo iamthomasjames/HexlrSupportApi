@@ -7,6 +7,8 @@ let User = require("../models/user.model");
 let Quizcheck = require("../models/quizcheck.model");
 let ScreenCapture = require("../models/screencapture.model");
 let CompanyDetails = require("../models/company.model");
+let WorkDetails = require("../models/work.model");
+
 
 var nodemailer = require("nodemailer");
 
