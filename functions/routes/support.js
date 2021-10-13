@@ -366,6 +366,12 @@ router.route("/companylist").get((req, res) => {
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
+router.route("/worklist").get((req, res) => {
+    WorkDetails.find()
+      .then((workDetails) => res.json(workDetails))
+      .catch((err) => res.status(400).json("Error:" + err));
+  });
+
 router.route("/user/answers").get((req, res) => {
   User.find()
     .then((supports) => res.json(supports))
