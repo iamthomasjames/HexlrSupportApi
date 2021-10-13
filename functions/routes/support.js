@@ -418,4 +418,20 @@ router.route('/add/company').post((req,res)=>{
     .catch(err => res.status(400).json('Error'+err))
 })
 
+router.route('/add/work').post((req,res)=>{
+    const companyDetails = {
+        company: req.body.company,
+        hours:req.body.hours,
+        date:req.body.date,
+        cost:req.body.cost
+    }
+    const newCompany = new CompanyDetails(companyDetails);
+    newCompany.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
+})
+
 module.exports = router; 
