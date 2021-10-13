@@ -421,7 +421,7 @@ router.route("/add/company").post((req, res) => {
 });
 
 router.route("/add/work").post((req, res) => {
-  const companyDetails = {
+  const workDetails = {
     company: req.body.company,
     description: req.body.description,
     hours: req.body.hours,
@@ -429,8 +429,8 @@ router.route("/add/work").post((req, res) => {
     cost: req.body.cost,
     status: req.body.status,
   };
-  const newCompany = new CompanyDetails(companyDetails);
-  newCompany
+  const newWork = new WorkDetails(workDetails);
+  newWork
     .save()
     .then((res1) => {
       res.status(200).json("send successfull");
