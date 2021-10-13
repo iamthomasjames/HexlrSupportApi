@@ -6,6 +6,8 @@ let RQuestions = require('../models/reactquestion.model');
 let User = require('../models/user.model');
 let Quizcheck = require('../models/quizcheck.model');
 let ScreenCapture = require('../models/screencapture.model');
+let CompanyDetails = require('../models/company.model');
+
 
 
 
@@ -361,6 +363,12 @@ router.route('/isQuiz').get((req,res)=>{
     .catch(err=> res.status(400).json('Error:'+err))
 })
 
+router.route('/companylist').get((req,res)=>{
+    CompanyDetails.find()
+    .then(companyDetails => res.json(companyDetails))
+    .catch(err=> res.status(400).json('Error:'+err))
+})
+
 router.route('/user/answers').get((req,res)=>{
     User.find()
     .then(supports => res.json(supports))
@@ -393,6 +401,21 @@ router.route('/:id').get((req,res)=>{
         res.json(support)
     })
     .catch(err=>res.status(400).json('Error'+err))
+})
+
+router.route('/add/company').post((req,res)=>{
+    const companyDetails = {
+        company: req.body.company,
+        email:req.body.email,
+        website:req.body.website
+    }
+    const newCompany = new CompanyDetails(companyDetails);
+    newCompany.save()
+    .then((res1)=> {
+        res.status(200).json("send successfull")
+          
+       })
+    .catch(err => res.status(400).json('Error'+err))
 })
 
 module.exports = router; 
