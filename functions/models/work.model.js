@@ -5,6 +5,9 @@ let WorkDetails = new Schema(
     company: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     hours: {
       type: String,
     },

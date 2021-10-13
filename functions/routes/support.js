@@ -1,76 +1,85 @@
-const router=require('express').Router();
-let Support = require('../models/support.model');
-let Debug = require('../models/tracklogs.model');
-let Questions = require('../models/questions.model');
-let RQuestions = require('../models/reactquestion.model');
-let User = require('../models/user.model');
-let Quizcheck = require('../models/quizcheck.model');
-let ScreenCapture = require('../models/screencapture.model');
-let CompanyDetails = require('../models/company.model');
+const router = require("express").Router();
+let Support = require("../models/support.model");
+let Debug = require("../models/tracklogs.model");
+let Questions = require("../models/questions.model");
+let RQuestions = require("../models/reactquestion.model");
+let User = require("../models/user.model");
+let Quizcheck = require("../models/quizcheck.model");
+let ScreenCapture = require("../models/screencapture.model");
+let CompanyDetails = require("../models/company.model");
 
+var nodemailer = require("nodemailer");
 
+var transporter = nodemailer.createTransport({
+  host: "hexlr.com",
+  port: 587,
+  secure: false, // upgrade later with STARTTLS
+  requireTLC: true,
+  auth: {
+    user: "contact@hexlr.com",
+    pass: process.env.Google_pass,
+  },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
+});
 
+router.route("/").get((req, res) => {
+  Support.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
 
-
-
-var nodemailer = require ('nodemailer');    
-
-
-    var transporter = nodemailer.createTransport({
-        host: "hexlr.com",
-        port: 587,
-        secure: false, // upgrade later with STARTTLS
-        requireTLC:true,
-        auth: {
-          user: "contact@hexlr.com",
-          pass: process.env.Google_pass
-        },
-        tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false
-          }
-      });
-
-
-router.route('/').get((req,res)=>{
-    Support.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/add').post((req,res)=>{
-     const supportDetails = {
-         _id: 'HL'+Math.floor(1000 + Math.random() * 9000),
-         name: req.body.name,
-         comapny: req.body.comapny,
-         phone: req.body.phone,
-         email:req.body.email,
-         reason: req.body.reason,
-         description: req.body.description,
-         status:"pending",
-         url:req.body.url
-     }
-     const newSupport = new Support(supportDetails);
-     newSupport.save()
-     .then((res1)=> {
-        const mailOptions = {  
-            from: 'contact@hexlr.com',  
-            to: 'tonyjose420@gmail.com,antonythomas96.96@gmail.com,mevinxavier000@gmail.com,mail@thomasjames.in',  
-            subject: `We have a New request Please take Action for `+req.body.name+``, 
-            html: `
-            <pre>Name:`+req.body.name+`,
-            Company: `+req.body.comapny+`,
-            Phone: `+req.body.phone+`,
-            Email: `+req.body.email+`,
-            Reason: `+req.body.reason+`,
-            Description: `+req.body.description+`
-            </pre>` 
-          };
-          const mailOptions2 = { 
-            from: 'contact@hexlr.com',  
-            to: req.body.email,  
-            subject: `Hexlr | Support Update`, 
-            html: `<!DOCTYPE html>
+router.route("/add").post((req, res) => {
+  const supportDetails = {
+    _id: "HL" + Math.floor(1000 + Math.random() * 9000),
+    name: req.body.name,
+    comapny: req.body.comapny,
+    phone: req.body.phone,
+    email: req.body.email,
+    reason: req.body.reason,
+    description: req.body.description,
+    status: "pending",
+    url: req.body.url,
+  };
+  const newSupport = new Support(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      const mailOptions = {
+        from: "contact@hexlr.com",
+        to: "tonyjose420@gmail.com,antonythomas96.96@gmail.com,mevinxavier000@gmail.com,mail@thomasjames.in",
+        subject:
+          `We have a New request Please take Action for ` + req.body.name + ``,
+        html:
+          `
+            <pre>Name:` +
+          req.body.name +
+          `,
+            Company: ` +
+          req.body.comapny +
+          `,
+            Phone: ` +
+          req.body.phone +
+          `,
+            Email: ` +
+          req.body.email +
+          `,
+            Reason: ` +
+          req.body.reason +
+          `,
+            Description: ` +
+          req.body.description +
+          `
+            </pre>`,
+      };
+      const mailOptions2 = {
+        from: "contact@hexlr.com",
+        to: req.body.email,
+        subject: `Hexlr | Support Update`,
+        html:
+          `<!DOCTYPE html>
             <!-- Set the language of your main document. This helps screenreaders use the proper language profile, pronunciation, and accent. -->
             <html lang="en">
               <head>
@@ -163,7 +172,9 @@ router.route('/add').post((req,res)=>{
                         <!-- The h1 is the main heading of the document and should come first. -->
                         <!-- We can override the default styles inline. -->
                         <h1 style="color: #000000; font-size: 32px; font-weight: 800; line-height: 32px; margin: 48px 0; text-align: center;">
-                            Your response has been recorded with us. Token Number: `+res1._id+`
+                            Your response has been recorded with us. Token Number: ` +
+          res1._id +
+          `
                         </h1>
                     </header>
             
@@ -201,238 +212,224 @@ router.route('/add').post((req,res)=>{
                 </td></tr></table>
                 <![endif]-->
               </body>
-            </html>` 
-          };
-          transporter.sendMail (mailOptions, function (err, info) { 
-            if (err) {
-                console.log (err) 
-              //  res.json(res1._id+JSON.stringify(err))
-            }      
-            else {
-                console.log (info); 
-               // res.json(res1._id+JSON.stringify(info))
-            }
-             
-          })
+            </html>`,
+      };
+      transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+          console.log(err);
+          //  res.json(res1._id+JSON.stringify(err))
+        } else {
+          console.log(info);
+          // res.json(res1._id+JSON.stringify(info))
+        }
+      });
 
-          transporter.sendMail (mailOptions2, function (err, info) { 
-            if (err) {
-                console.log (err) 
-               
-            }      
-            else {
-                console.log (info); 
-                const ress=[]
-                ress.push({
-                    token: res1._id,
-                    emailres: JSON.stringify(info)
-                })
-                res.json(ress);
-            }
-             
-          })
-          
-        })
-     .catch(err => res.status(400).json('Error'+err))
-
-})
-
-router.route('/debug').post((req,res)=>{
-    const supportDetails = {
-        log: req.body.log,
-        page:req.body.page
-    }
-    const newSupport = new Debug(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-
-})
-
-router.route('/add/questions').post((req,res)=>{
-    const supportDetails = {
-        question: req.body.question,
-        option1:req.body.option1,
-        option2:req.body.option2,
-        option3:req.body.option3,
-        option4:req.body.option4,
-        isImage:req.body.isImage
-    }
-    const newSupport = new Questions(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-
-})
-
-router.route('/add/r/questions').post((req,res)=>{
-    const supportDetails = {
-        question: req.body.question,
-        option1:req.body.option1,
-        option2:req.body.option2,
-        option3:req.body.option3,
-        option4:req.body.option4,
-        isImage:req.body.isImage
-    }
-    const newSupport = new RQuestions(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
-
-
-router.route('/post/answers').post((req,res)=>{
-    const supportDetails = {
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        answers: req.body.answers,
-        screenshots:req.body.screenshots
-    }
-    const newSupport = new User(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
-
-
-
-
-router.route('/quiz/MakeActive').post((req,res)=>{
-    const supportDetails = {
-        isQuiz: req.body.isQuiz,
-        isAvailable: req.body.isAvailable,
-    }
-    const newSupport = new Quizcheck(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
-
-
-router.route('/post/ScreenCapture').post((req,res)=>{
-    const supportDetails = {
-        screens: req.body.screens,
-        name:req.body.name
-    }
-    const newSupport = new ScreenCapture(supportDetails);
-    newSupport.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
-
-router.route('/getQuestions').get((req,res)=>{
-    Questions.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/r/getQuestions').get((req,res)=>{
-    RQuestions.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/getScreens').get((req,res)=>{
-    ScreenCapture.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/isQuiz').get((req,res)=>{
-    Quizcheck.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/companylist').get((req,res)=>{
-    CompanyDetails.find()
-    .then(companyDetails => res.json(companyDetails))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/user/answers').get((req,res)=>{
-    User.find()
-    .then(supports => res.json(supports))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-
-router.route('/answers/delete').delete((req,res)=>{
-    Questions.remove({})
-    .then(supports =>  res.status(200).json("delete successfull"))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/screenShots/delete').delete((req,res)=>{
-    ScreenCapture.remove({})
-    .then(supports =>  res.status(200).json("delete successfull"))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-
-router.route('/isActive/delete').delete((req,res)=>{
-    Quizcheck.remove({})
-    .then(supports =>  res.status(200).json("delete successfull"))
-    .catch(err=> res.status(400).json('Error:'+err))
-})
-
-router.route('/:id').get((req,res)=>{
-    Support.findById(req.params.id).exec()
-    .then(support=>{
-        res.json(support)
+      transporter.sendMail(mailOptions2, function (err, info) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+          const ress = [];
+          ress.push({
+            token: res1._id,
+            emailres: JSON.stringify(info),
+          });
+          res.json(ress);
+        }
+      });
     })
-    .catch(err=>res.status(400).json('Error'+err))
-})
+    .catch((err) => res.status(400).json("Error" + err));
+});
 
-router.route('/add/company').post((req,res)=>{
-    const companyDetails = {
-        company: req.body.company,
-        email:req.body.email,
-        website:req.body.website
-    }
-    const newCompany = new CompanyDetails(companyDetails);
-    newCompany.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
+router.route("/debug").post((req, res) => {
+  const supportDetails = {
+    log: req.body.log,
+    page: req.body.page,
+  };
+  const newSupport = new Debug(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
 
-router.route('/add/work').post((req,res)=>{
-    const companyDetails = {
-        company: req.body.company,
-        hours:req.body.hours,
-        date:req.body.date,
-        cost:req.body.cost,
-        status:req.body.status,
-    }
-    const newCompany = new CompanyDetails(companyDetails);
-    newCompany.save()
-    .then((res1)=> {
-        res.status(200).json("send successfull")
-          
-       })
-    .catch(err => res.status(400).json('Error'+err))
-})
+router.route("/add/questions").post((req, res) => {
+  const supportDetails = {
+    question: req.body.question,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    isImage: req.body.isImage,
+  };
+  const newSupport = new Questions(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
 
-module.exports = router; 
+router.route("/add/r/questions").post((req, res) => {
+  const supportDetails = {
+    question: req.body.question,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    isImage: req.body.isImage,
+  };
+  const newSupport = new RQuestions(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/post/answers").post((req, res) => {
+  const supportDetails = {
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
+    answers: req.body.answers,
+    screenshots: req.body.screenshots,
+  };
+  const newSupport = new User(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/quiz/MakeActive").post((req, res) => {
+  const supportDetails = {
+    isQuiz: req.body.isQuiz,
+    isAvailable: req.body.isAvailable,
+  };
+  const newSupport = new Quizcheck(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/post/ScreenCapture").post((req, res) => {
+  const supportDetails = {
+    screens: req.body.screens,
+    name: req.body.name,
+  };
+  const newSupport = new ScreenCapture(supportDetails);
+  newSupport
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/getQuestions").get((req, res) => {
+  Questions.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/r/getQuestions").get((req, res) => {
+  RQuestions.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/getScreens").get((req, res) => {
+  ScreenCapture.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/isQuiz").get((req, res) => {
+  Quizcheck.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/companylist").get((req, res) => {
+  CompanyDetails.find()
+    .then((companyDetails) => res.json(companyDetails))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/user/answers").get((req, res) => {
+  User.find()
+    .then((supports) => res.json(supports))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/answers/delete").delete((req, res) => {
+  Questions.remove({})
+    .then((supports) => res.status(200).json("delete successfull"))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/screenShots/delete").delete((req, res) => {
+  ScreenCapture.remove({})
+    .then((supports) => res.status(200).json("delete successfull"))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/isActive/delete").delete((req, res) => {
+  Quizcheck.remove({})
+    .then((supports) => res.status(200).json("delete successfull"))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/:id").get((req, res) => {
+  Support.findById(req.params.id)
+    .exec()
+    .then((support) => {
+      res.json(support);
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/add/company").post((req, res) => {
+  const companyDetails = {
+    company: req.body.company,
+    email: req.body.email,
+    website: req.body.website,
+  };
+  const newCompany = new CompanyDetails(companyDetails);
+  newCompany
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+router.route("/add/work").post((req, res) => {
+  const companyDetails = {
+    company: req.body.company,
+    description: req.body.description,
+    hours: req.body.hours,
+    date: req.body.date,
+    cost: req.body.cost,
+    status: req.body.status,
+  };
+  const newCompany = new CompanyDetails(companyDetails);
+  newCompany
+    .save()
+    .then((res1) => {
+      res.status(200).json("send successfull");
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+module.exports = router;
