@@ -380,6 +380,7 @@ router.route("/:company").get(async(req, res) => {
   res.send(filteredCompany);
 });
 
+
 router.route("/user/answers").get((req, res) => {
   User.find()
     .then((supports) => res.json(supports))
@@ -427,6 +428,16 @@ router.route("/add/company").post((req, res) => {
     })
     .catch((err) => res.status(400).json("Error" + err));
 });
+
+router.route("/update/work").post((req, res) => {
+    WorkDetails.updateOne({
+        "_id":req.body._id
+    },{
+        $set:{"status":"completed"}
+    }).then((res)=>{
+        res.send("updated succesfully");
+    })
+  });
 
 router.route("/add/work").post((req, res) => {
   const workDetails = {
