@@ -373,13 +373,18 @@ router.route("/worklist").get((req, res) => {
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.route("/:company").get(async(req, res) => {
+router.route("/clientlist").get((req, res) => {
+  CompanyDetails.find()
+    .then((clientDetails) => res.json(clientDetails))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/:company").get(async (req, res) => {
   const filteredCompany = await WorkDetails.find({
     company: req.query.company,
   });
   res.send(filteredCompany);
 });
-
 
 router.route("/user/answers").get((req, res) => {
   User.find()
@@ -430,14 +435,34 @@ router.route("/add/company").post((req, res) => {
 });
 
 router.route("/update/work").post((req, res) => {
-    WorkDetails.updateOne({
-        "_id":req.body._id
-    },{
-        $set:{"status":"completed"}
-    }).then((res)=>{
-        res.send("updated succesfully");
-    })
+  WorkDetails.updateOne(
+    {
+      _id: req.body._id,
+    },
+    {
+      $set: { status: "completed" },
+    }
+  ).then((res) => {
+    res.send("updated succesfully");
   });
+});
+
+router.route("/update/company").post((req, res) => {
+  CompanyDetails.updateOne(
+    {
+      _id: req.body._id,
+    },
+    {
+      $set: {
+        company: req.body.company,
+        email: req.body.email,
+        website: req.body.website,
+      },
+    }
+  ).then((res) => {
+    res.send("updated succesfully");
+  });
+});
 
 router.route("/add/work").post((req, res) => {
   const workDetails = {
