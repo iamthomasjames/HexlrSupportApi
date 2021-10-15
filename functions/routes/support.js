@@ -419,6 +419,15 @@ router.route("/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
+router.route("/client/:id").get((req, res) => {
+  CompanyDetails.findById(req.params.id)
+    .exec()
+    .then((support) => {
+      res.json(support);
+    })
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
 router.route("/add/company").post((req, res) => {
   const companyDetails = {
     company: req.body.company,
